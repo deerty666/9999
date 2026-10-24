@@ -1,0 +1,33 @@
+{
+  "id": "./",
+  "name": "حسابات السائقين والتوصيل اليومية - ديرتي",
+  "short_name": "حسابات ديرتي",
+  "description": "نظام إدارة حسابات السائقين وديونهم وكاشير التوصيل اليومية",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#100e0b",
+  "theme_color": "#17130f",
+  "categories": [
+    "business",
+    "finance",
+    "productivity"
+  ],
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
