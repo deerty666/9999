@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#17130f">
+    <meta name="description" content="نظام حسابات السائقين والتوصيل اليومية">
+
+    <title>حسابات السائقين والتوصيل | ديرتي</title>
+
+    <link rel="manifest" href="./manifest.json">
+    <link rel="stylesheet" href="./style.css">
+
+</head>
+
+<body>
+
+    <!-- رأس التطبيق -->
+    <header class="topbar">
+
+        <div class="brand-mark">د</div>
+
+        <div class="brand-copy">
+            <h1>حسابات السائقين والتوصيل</h1>
+            <p>نظام الحسابات اليومية لمطعم ديرتي</p>
+        </div>
+
+        <button
+            id="installBtn"
+            class="btn btn-outline hidden no-print"
+            type="button">
+            تثبيت التطبيق
+        </button>
+
+    </header>
+
+
+    <main class="container">
+
+        <!-- إعدادات اليوم -->
+        <section class="panel control-panel no-print">
+
+            <div class="control-grid">
+
+                <label class="field">
+                    <span>تاريخ الحساب</span>
+                    <input id="workDate" type="date">
+                </label>
+
+                <label class="field">
+                    <span>اسم المسؤول</span>
+                    <input
+                        id="managerName"
+                        type="text"
+                        placeholder="اسم الكاشير أو المسؤول">
+                </label>
+
+                <div class="control-actions">
+
+                    <button
+                        id="newDayBtn"
+                        class="btn btn-gold"
+                        type="button">
+                        بدء حساب يوم جديد
+                    </button>
+
+                    <button
+                        id="exportBtn"
+                        class="btn btn-outline"
+                        type="button">
+                        نسخة احتياطية
+                    </button>
+
+                    <label class="btn btn-outline file-button">
+                        استيراد نسخة
+                        <input
+                            id="importFile"
+                            type="file"
+                            accept="application/json">
+                    </label>
+
+                </div>
+
+            </div>
+
+            <div
+                id="statusMessage"
+                class="status-message"
+                role="status">
+                يتم حفظ التعديلات تلقائيًا على هذا الجهاز.
+            </div>
+
+        </section>
+
+
+        <!-- جدول السائقين -->
+        <section id="driversSection" class="panel">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="eyebrow">01 / السائقون</span>
+
+                    <h2>
+                        حسابات السائقين
+                        <span class="count-badge">10 سائقين</span>
+                    </h2>
+
+                    <p>
+                        أدخل المبالغ المطلوبة فقط، والخانات الفارغة
+                        لن تظهر بصفر.
+                    </p>
+                </div>
+
+                <button
+                    class="btn btn-dark no-print"
+                    type="button"
+                    onclick="printSection('driversSection','حسابات السائقين')">
+                    طباعة السائقين 80mm
+                </button>
+
+            </div>
+
+
+            <div class="table-wrap">
+
+                <table class="data-table drivers-table">
+
+                    <thead>
+                        <tr>
+                            <th class="name-col">اسم السائق</th>
+                            <th>الإضافة</th>
+                            <th>الحساب</th>
+                            <th>الشبكة</th>
+                            <th>البنزين</th>
+                            <th>نسبة الشغل</th>
+                            <th>المصروف</th>
+                            <th>المتبقي</th>
+                            <th class="no-print">إجراء</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="driversBody"></tbody>
+
+                    <tfoot id="driversFoot"></tfoot>
+
+                </table>
+
+            </div>
+
+
+            <div class="formula-note">
+
+                <strong>طريقة الحساب:</strong>
+
+                الإضافة + الحساب − الشبكة − البنزين − نسبة الشغل − المصروف.
+
+            </div>
+
+        </section>
+
+
+        <!-- جدول الديون والكاشير -->
+        <div class="two-column">
+
+
+            <!-- ديون السائقين -->
+            <section id="debtsSection" class="panel">
+
+                <div class="section-heading compact-heading">
+
+                    <div>
+                        <span class="eyebrow">02 / الديون</span>
+
+                        <h2>ديون السائقين</h2>
+
+                        <p>
+                            سجل الديون وأسماء أصحابها،
+                            ويمكنك الإضافة والتعديل والحذف.
+                        </p>
+                    </div>
+
+                    <button
+                        class="btn btn-dark no-print"
+                        type="button"
+                        onclick="printSection('debtsSection','ديون السائقين')">
+                        طباعة الديون
+                    </button>
+
+                </div>
+
+
+                <div class="table-wrap">
+
+                    <table class="data-table">
+
+                        <thead>
+                            <tr>
+                                <th>اسم السائق</th>
+                                <th>البيان</th>
+                                <th>المبلغ</th>
+                                <th class="no-print">إجراء</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="debtsBody"></tbody>
+
+                        <tfoot>
+                            <tr>
+                                <th colspan="2">إجمالي الديون</th>
+                                <th id="debtsTotal">—</th>
+                                <th class="no-print"></th>
+                            </tr>
+                        </tfoot>
+
+                    </table>
+
+                </div>
+
+
+                <button
+                    id="addDebtBtn"
+                    class="btn btn-soft no-print"
+                    type="button">
+                    ＋ إضافة دين
+                </button>
+
+            </section>
+
+
+
+            <!-- حساب كاشير التوصيل -->
+            <section id="cashierSection" class="panel">
+
+                <div class="section-heading compact-heading">
+
+                    <div>
+                        <span class="eyebrow">03 / الكاشير</span>
+
+                        <h2>حساب كاشير التوصيل</h2>
+
+                        <p>
+                            الشبكة والكاش وهنقرستيشن
+                            والمصروفات والدين.
+                        </p>
+                    </div>
+
+                    <button
+                        class="btn btn-dark no-print"
+                        type="button"
+                        onclick="printSection('cashierSection','حساب كاشير التوصيل')">
+                        طباعة الكاشير
+                    </button>
+
+                </div>
+
+
+                <div class="table-wrap">
+
+                    <table class="data-table">
+
+                        <thead>
+                            <tr>
+                                <th>نوع الحساب</th>
+                                <th>المبلغ</th>
+                                <th>ملاحظة</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="cashierBody"></tbody>
+
+                        <tfoot>
+                            <tr>
+                                <th>الإجمالي</th>
+                                <th id="cashierTotal">—</th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+
+        <!-- ملخص اليوم -->
+        <section class="panel summary-panel no-print">
+
+            <div>
+                <span class="eyebrow">ملخص اليوم</span>
+                <h2>نظرة سريعة</h2>
+            </div>
+
+            <div class="summary-grid">
+
+                <div class="summary-card">
+                    <span>السائقون المسجلون</span>
+                    <strong id="driversEntered">0 / 10</strong>
+                </div>
+
+                <div class="summary-card">
+                    <span>إجمالي المتبقي للسائقين</span>
+                    <strong id="driversRemaining">—</strong>
+                </div>
+
+                <div class="summary-card">
+                    <span>إجمالي ديون السائقين</span>
+                    <strong id="debtsSummary">—</strong>
+                </div>
+
+                <div class="summary-card">
+                    <span>إجمالي حساب الكاشير</span>
+                    <strong id="cashierSummary">—</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <footer class="app-footer no-print">
+            حسابات السائقين والتوصيل • مطعم ديرتي
+        </footer>
+
+    </main>
+
+
+
+    <!-- نافذة تأكيد بدء يوم جديد -->
+    <div
+        id="confirmModal"
+        class="modal hidden"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="confirmTitle">
+
+        <div class="modal-card">
+
+            <h2 id="confirmTitle">بدء يوم جديد</h2>
+
+            <p>
+                سيتم إنشاء حساب فارغ للتاريخ المحدد مع الاحتفاظ
+                بأسماء السائقين. الحسابات القديمة ستبقى محفوظة.
+            </p>
+
+            <div class="modal-actions">
+
+                <button
+                    id="cancelNewDay"
+                    class="btn btn-outline"
+                    type="button">
+                    إلغاء
+                </button>
+
+                <button
+                    id="confirmNewDay"
+                    class="btn btn-gold"
+                    type="button">
+                    إنشاء الحساب
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ملفات تشغيل التطبيق -->
+    <script src="./app.js"></script>
+
+    <script>
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", function () {
+                navigator.serviceWorker
+                    .register("./sw.js")
+                    .catch(function (error) {
+                        console.log("تعذر تسجيل Service Worker:", error);
+                    });
+            });
+        }
+    </script>
+
+</body>
+</html>
