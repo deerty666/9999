@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#211913">
+  <meta name="description" content="نظام ديرتي لإدارة فواتير السائقين والتسويات اليومية">
+  <title>ديرتي | حسابات السائقين</title>
+
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icons/icon-192.png">
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark">د</div>
+    <div>
+      <h1>ديرتي | حسابات السائقين</h1>
+      <p>الفواتير والتسويات اليومية</p>
+    </div>
+  </div>
+
+  <div class="top-actions">
+    <button class="btn btn-light" id="installBtn" hidden>
+      تثبيت التطبيق
+    </button>
+    <button class="btn btn-gold" id="backupQuickBtn">
+      نسخة احتياطية
+    </button>
+  </div>
+</header>
+
+<main class="container">
+
+  <div class="local-warning">
+    <strong>تنبيه:</strong>
+    البيانات محفوظة داخل المتصفح على هذا الجهاز.
+    خذ نسخة احتياطية بانتظام، ولا تمسح بيانات المتصفح.
+  </div>
+
+  <nav class="tabs" id="tabs">
+    <button class="tab active" data-page="dashboard">الرئيسية</button>
+    <button class="tab" data-page="newInvoice">فاتورة جديدة</button>
+    <button class="tab" data-page="drivers">السائقون</button>
+    <button class="tab" data-page="items">الأصناف والأسعار</button>
+    <button class="tab" data-page="reports">التقارير والتسويات</button>
+    <button class="tab" data-page="history">الفواتير والأرشيف</button>
+    <button class="tab" data-page="settings">الإعدادات والنسخ</button>
+  </nav>
+
+  <!-- الرئيسية -->
+  <section class="page active" id="page-dashboard">
+
+    <div class="section-title">
+      <div>
+        <h2>لوحة المتابعة</h2>
+        <p id="todayText" class="muted"></p>
+      </div>
+
+      <button class="btn btn-dark" data-open="newInvoice">
+        + فاتورة جديدة
+      </button>
+    </div>
+
+    <div class="stats">
+      <article class="stat">
+        <span>مبيعات اليوم</span>
+        <strong id="statSales">0.00 ر.س</strong>
+        <small>الفواتير غير الملغاة</small>
+      </article>
+
+      <article class="stat">
+        <span>المتبقي على السائقين</span>
+        <strong id="statDue">0.00 ر.س</strong>
+        <small>المبيعات غير المسوّاة</small>
+      </article>
+
+      <article class="stat">
+        <span>فواتير اليوم</span>
+        <strong id="statInvoices">0</strong>
+        <small>عدد الفواتير</small>
+      </article>
+
+      <article class="stat">
+        <span>السائقون النشطون</span>
+        <strong id="statDrivers">0</strong>
+        <small>السائقون المسجلون</small>
+      </article>
+    </div>
+
+    <div class="two-col">
+
+      <div class="panel">
+        <div class="panel-head">
+          <h3>آخر الفواتير</h3>
+          <button class="btn btn-light btn-sm" data-open="history">
+            عرض الكل
+          </button>
+        </div>
+
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>رقم الفاتورة</th>
+                <th>السائق</th>
+                <th>الإجمالي</th>
+                <th>التاريخ</th>
+                <th>إجراء</th>
+              </tr>
+            </thead>
+            <tbody id="recentInvoices"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>ملخص السائقين اليوم</h3>
+
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>السائق</th>
+                <th>الفواتير</th>
+                <th>المبيعات</th>
+                <th>المسلّم</th>
+                <th>المتبقي</th>
+              </tr>
+            </thead>
+            <tbody id="driverSummary"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- فاتورة جديدة -->
+  <section class="page" id="page-newInvoice">
+
+    <div class="section-title">
+      <div>
+        <h2>تسجيل فاتورة جديدة</h2>
+        <p class="muted">اختر السائق ثم حدد الأصناف والكميات.</p>
+      </div>
+    </div>
+
+    <div class="two-col invoice-layout">
+
+      <div class="panel">
+        <h3>بيانات الطلب</h3>
+
+        <div class="form-grid">
+
+          <label class="field">
+            اسم السائق *
+            <select id="invoiceDriver">
+              <option value="">اختر السائق</option>
+            </select>
+          </label>
+
+          <label class="field">
+            نوع الطلب
+            <select id="invoiceType">
+              <option>توصيل</option>
+              <option>استلام</option>
+              <option>طلب داخلي</option>
+            </select>
+          </label>
+
+          <label class="field">
+            اسم العميل
+            <input id="customerName" placeholder="اختياري">
+          </label>
+
+          <label class="field">
+            رقم العميل
+            <input id="customerPhone" inputmode="tel" placeholder="اختياري">
+          </label>
+
+          <label class="field full">
+            العنوان أو الملاحظات
+            <textarea id="invoiceNote" rows="2"></textarea>
+          </label>
+
+        </div>
+
+        <h3 class="subheading">الأصناف</h3>
+
+        <label class="field">
+          البحث عن صنف
+          <input id="itemSearch" placeholder="اكتب اسم الصنف">
+        </label>
+
+        <div class="item-picker" id="itemPicker"></div>
+      </div>
+
+      <div class="panel">
+
+        <h3>تفاصيل الفاتورة</h3>
+
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>الصنف</th>
+                <th>السعر</th>
+                <th>الكمية</th>
+                <th>الإجمالي</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="cartRows"></tbody>
+          </table>
+        </div>
+
+        <div class="total-box">
+          <span>إجمالي الفاتورة</span>
+          <strong id="invoiceTotal">0.00 ر.س</strong>
+        </div>
+
+        <div class="form-grid top-gap">
+          <label class="field">
+            رسوم التوصيل
+            <input id="deliveryFee" type="number" min="0" step="0.01" value="0">
+          </label>
+        </div>
+
+        <p class="muted hint">
+          يُحسب الإجمالي تلقائيًا. تأكد من اختيار السائق والكميات قبل الحفظ.
+        </p>
+
+        <div class="button-row">
+          <button class="btn btn-gold" id="saveInvoiceBtn">
+            حفظ الفاتورة وطباعة
+          </button>
+
+          <button class="btn btn-light" id="clearInvoiceBtn">
+            تفريغ
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- إدارة السائقين -->
+  <section class="page" id="page-drivers">
+
+    <div class="section-title">
+      <h2>إدارة السائقين</h2>
+    </div>
+
+    <div class="two-col">
+
+      <div class="panel">
+        <h3 id="driverFormTitle">إضافة سائق</h3>
+
+        <input type="hidden" id="driverEditId">
+
+        <div class="form-grid">
+          <label class="field">
+            اسم السائق *
+            <input id="driverName" placeholder="اسم السائق">
+          </label>
+
+          <label class="field">
+            رقم الجوال
+            <input id="driverPhone" inputmode="tel">
+          </label>
+        </div>
+
+        <div class="button-row">
+          <button class="btn btn-gold" id="saveDriverBtn">حفظ السائق</button>
+          <button class="btn btn-light" id="cancelDriverEdit">إلغاء</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>تنبيه</h3>
+        <p class="muted line-height">
+          إذا كان للسائق فواتير سابقة، عطّله بدل حذفه حتى تحافظ على سجل الفواتير.
+        </p>
+      </div>
+
+    </div>
+
+    <div class="panel">
+      <h3>قائمة السائقين</h3>
+
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>السائق</th>
+              <th>الجوال</th>
+              <th>عدد الفواتير</th>
+              <th>إجمالي المبيعات</th>
+              <th>الحالة</th>
+              <th>الإجراء</th>
+            </tr>
+          </thead>
+          <tbody id="driversRows"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- إدارة الأصناف -->
+  <section class="page" id="page-items">
+
+    <div class="section-title">
+      <h2>إدارة الأصناف والأسعار</h2>
+    </div>
+
+    <div class="two-col">
+
+      <div class="panel">
+        <h3 id="itemFormTitle">إضافة صنف</h3>
+
+        <input type="hidden" id="itemEditId">
+
+        <div class="form-grid">
+
+          <label class="field">
+            اسم الصنف *
+            <input id="itemName" placeholder="مثال: ربع دجاج">
+          </label>
+
+          <label class="field">
+            السعر بالريال *
+            <input id="itemPrice" type="number" min="0" step="0.01" placeholder="8.00">
+          </label>
+
+          <label class="field full">
+            الفئة
+            <input id="itemCategory" placeholder="دجاج / رز / لحوم / مشروبات">
+          </label>
+
+        </div>
+
+        <div class="button-row">
+          <button class="btn btn-gold" id="saveItemBtn">حفظ الصنف</button>
+          <button class="btn btn-light" id="cancelItemEdit">إلغاء</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>تعديل الأسعار</h3>
+        <p class="muted line-height">
+          عند تعديل سعر الصنف، يتغير السعر في الفواتير الجديدة فقط.
+          أما الفواتير القديمة فتحتفظ بالسعر الذي سُجل وقت إنشائها.
+        </p>
+      </div>
+
+    </div>
+
+    <div class="panel">
+      <h3>قائمة الأصناف</h3>
+
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>الصنف</th>
+              <th>الفئة</th>
+              <th>السعر</th>
+              <th>الحالة</th>
+              <th>الإجراء</th>
+            </tr>
+          </thead>
+          <tbody id="itemsRows"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- التقارير والتسويات -->
+  <section class="page" id="page-reports">
+
+    <div class="section-title">
+      <div>
+        <h2>التقارير والتسويات</h2>
+        <p class="muted">حدد الفترة ثم اعرض التقرير أو اطبعه.</p>
+      </div>
+    </div>
+
+    <div class="panel">
+
+      <div class="form-grid">
+
+        <label class="field">
+          من تاريخ
+          <input id="reportFrom" type="date">
+        </label>
+
+        <label class="field">
+          إلى تاريخ
+          <input id="reportTo" type="date">
+        </label>
+
+        <label class="field">
+          السائق
+          <select id="reportDriver">
+            <option value="">كل السائقين</option>
+          </select>
+        </label>
+
+      </div>
+
+      <div class="button-row">
+        <button class="btn btn-gold" id="runReportBtn">عرض التقرير</button>
+        <button class="btn btn-light" id="printReportBtn">طباعة تقرير الفواتير</button>
+        <button class="btn btn-dark" id="printAllDriversReportBtn">فاتورة موحّدة لجميع السائقين</button>
+        <button class="btn btn-light" id="exportCsvBtn">تصدير CSV</button>
+      </div>
+
+    </div>
+
+    <div class="stats compact-stats">
+
+      <article class="stat">
+        <span>إجمالي المبيعات</span>
+        <strong id="reportSales">0.00 ر.س</strong>
+      </article>
+
+      <article class="stat">
+        <span>المبلغ المسلّم</span>
+        <strong id="reportPaid">0.00 ر.س</strong>
+      </article>
+
+      <article class="stat">
+        <span>المتبقي على السائق</span>
+        <strong id="reportDue">0.00 ر.س</strong>
+      </article>
+
+      <article class="stat">
+        <span>عدد الفواتير</span>
+        <strong id="reportCount">0</strong>
+      </article>
+
+    </div>
+
+    <div class="panel">
+
+      <div class="panel-head">
+        <h3>تفاصيل الفواتير</h3>
+        <button class="btn btn-gold btn-sm" id="closeDriverBtn">
+          تسوية وإغلاق يوم
+        </button>
+      </div>
+
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>التاريخ</th>
+              <th>الفاتورة</th>
+              <th>السائق</th>
+              <th>الإجمالي</th>
+              <th>حالة التسوية</th>
+            </tr>
+          </thead>
+          <tbody id="reportRows"></tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <div class="panel">
+      <h3>سجل التسويات اليومية</h3>
+
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>التاريخ</th>
+              <th>السائق</th>
+              <th>المبيعات</th>
+              <th>المبلغ المسلّم</th>
+              <th>الفرق</th>
+              <th>ملاحظات</th>
+              <th>إجراء</th>
+            </tr>
+          </thead>
+          <tbody id="settlementsRows"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- الأرشيف -->
+  <section class="page" id="page-history">
+
+    <div class="section-title">
+      <div>
+        <h2>سجل الفواتير والأرشيف</h2>
+        <p class="muted">
+          يمكنك طباعة الفواتير القديمة أو تصفير الأرشيف السابق.
+        </p>
+      </div>
+
+      <button class="btn btn-danger" id="clearArchiveBtn" type="button">
+        تصفير الأرشيف السابق
+      </button>
+    </div>
+
+    <div class="panel">
+
+      <div class="form-grid">
+
+        <label class="field">
+          البحث برقم الفاتورة أو السائق أو العميل
+          <input id="historySearch" placeholder="اكتب للبحث">
+        </label>
+
+        <label class="field">
+          الحالة
+          <select id="historyStatus">
+            <option value="">كل الفواتير</option>
+            <option value="active">غير ملغاة</option>
+            <option value="cancelled">ملغاة</option>
+          </select>
+        </label>
+
+        <label class="field">
+          من تاريخ
+          <input id="historyFrom" type="date">
+        </label>
+
+        <label class="field">
+          إلى تاريخ
+          <input id="historyTo" type="date">
+        </label>
+
+      </div>
+    </div>
+
+    <div class="panel">
+
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>رقم الفاتورة</th>
+              <th>التاريخ</th>
+              <th>السائق</th>
+              <th>العميل</th>
+              <th>الإجمالي</th>
+              <th>التسوية</th>
+              <th>الحالة</th>
+              <th>الإجراءات</th>
+            </tr>
+          </thead>
+          <tbody id="historyRows"></tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- الإعدادات -->
+  <section class="page" id="page-settings">
+
+    <div class="section-title">
+      <h2>الإعدادات والنسخ الاحتياطي</h2>
+    </div>
+
+    <div class="two-col">
+
+      <div class="panel">
+        <h3>بيانات الفاتورة</h3>
+
+        <div class="form-grid">
+
+          <label class="field full">
+            اسم المنشأة
+            <input id="businessName" placeholder="مطاعم ومطابخ سحايب ديرتي">
+          </label>
+
+          <label class="field">
+            رقم التواصل
+            <input id="businessPhone" placeholder="رقم المطعم">
+          </label>
+
+          <label class="field">
+            عبارة أسفل الفاتورة
+            <input id="receiptFooter" placeholder="شكرًا لزيارتكم">
+          </label>
+
+        </div>
+
+        <div class="button-row">
+          <button class="btn btn-gold" id="saveSettingsBtn">
+            حفظ البيانات
+          </button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>نسخ واستعادة البيانات</h3>
+
+        <p class="muted line-height">
+          يمكنك تنزيل نسخة تشمل السائقين والأصناف والفواتير والتسويات.
+        </p>
+
+        <div class="button-row">
+          <button class="btn btn-gold" id="exportBackupBtn">
+            تنزيل نسخة احتياطية
+          </button>
+
+          <button class="btn btn-light" id="importBackupBtn">
+            استعادة نسخة
+          </button>
+
+          <input type="file" id="backupFile" accept=".json,application/json" hidden>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>تثبيت التطبيق</h3>
+
+        <p class="muted line-height">
+          يمكنك تثبيت التطبيق من متصفح Chrome أو Edge عند تشغيله على استضافة HTTPS.
+        </p>
+      </div>
+
+      <div class="panel danger-panel">
+        <h3>مسح جميع البيانات</h3>
+
+        <p class="muted line-height">
+          هذا الإجراء يحذف السائقين والأصناف والفواتير والتسويات من هذا المتصفح.
+          نزّل نسخة احتياطية أولًا.
+        </p>
+
+        <button class="btn btn-danger" id="resetBtn">
+          مسح جميع البيانات
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>ديرتي • حسابات السائقين اليومية</footer>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal">
+
+    <h3 id="modalTitle">تأكيد</h3>
+    <p id="modalMessage"></p>
+
+    <label class="field" id="modalInputWrap" hidden>
+      المبلغ المستلم فعليًا
+      <input id="modalAmount" type="number" min="0" step="0.01">
+    </label>
+
+    <label class="field" id="modalNoteWrap" hidden>
+      ملاحظات التسوية
+      <textarea id="modalNote" rows="2"></textarea>
+    </label>
+
+    <div class="button-row">
+      <button class="btn btn-danger" id="modalConfirm">تأكيد</button>
+      <button class="btn btn-light" id="modalCancel">إلغاء</button>
+    </div>
+
+  </div>
+</div>
+
+<div id="printArea" class="print-area" hidden></div>
+
+<script src="./app.js"></script>
+
+</body>
+</html>
