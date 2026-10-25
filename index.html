@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>حسابات السائقين | سحايب ديرتي</title>
+
+    <meta name="theme-color" content="#17130f">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="main-header">
+    <div class="brand">
+        <div class="brand-icon">د</div>
+
+        <div>
+            <h1>سحايب ديرتي</h1>
+            <p>نظام فواتير صرف أصناف السائقين</p>
+        </div>
+    </div>
+
+    <div class="header-date">
+        <span>تاريخ العمل</span>
+        <strong id="todayDate"></strong>
+    </div>
+</header>
+
+<nav class="main-nav">
+    <button class="nav-btn active" data-page="issuePage">
+        صرف الأصناف
+    </button>
+
+    <button class="nav-btn" data-page="invoicesPage">
+        فواتير اليوم
+    </button>
+
+    <button class="nav-btn" data-page="summaryPage">
+        الفاتورة الشاملة
+    </button>
+
+    <button class="nav-btn" data-page="archivePage">
+        الأرشيف
+    </button>
+
+    <button class="nav-btn" data-page="settingsPage">
+        إدارة النظام
+    </button>
+</nav>
+
+<main class="container">
+
+    <!-- =========================
+         شاشة صرف الأصناف
+    ========================== -->
+
+    <section id="issuePage" class="page active">
+
+        <div class="section-heading">
+            <div>
+                <h2>تسجيل عملية صرف جديدة</h2>
+                <p>اختر السائق واكتب الكميات التي استلمها.</p>
+            </div>
+        </div>
+
+        <div class="panel">
+
+            <label for="issueDriver">اسم السائق</label>
+
+            <select id="issueDriver">
+                <option value="">اختر السائق</option>
+            </select>
+
+            <div class="products-heading">
+                <h3>الأصناف</h3>
+                <span>اكتب الكمية مباشرة</span>
+            </div>
+
+            <div id="productsGrid" class="products-grid"></div>
+
+            <div class="issue-footer">
+                <div class="total-box">
+                    <span>إجمالي عملية الصرف</span>
+                    <strong id="issueTotal">0.00 ريال</strong>
+                </div>
+
+                <button id="saveIssueBtn" class="btn btn-primary">
+                    تسجيل الصرف وإصدار الفاتورة
+                </button>
+            </div>
+
+        </div>
+
+        <div class="notice">
+            <strong>ملاحظة:</strong>
+            كل عملية صرف تُسجّل في فاتورة مستقلة، وتُضاف تلقائيًا
+            إلى حساب السائق اليومي.
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         شاشة فواتير اليوم
+    ========================== -->
+
+    <section id="invoicesPage" class="page">
+
+        <div class="section-heading">
+            <div>
+                <h2>فواتير اليوم</h2>
+                <p>عرض الفواتير وتعديلها وإعادة طباعتها.</p>
+            </div>
+        </div>
+
+        <div class="panel">
+
+            <div class="filter-row">
+
+                <div>
+                    <label for="invoiceDriverFilter">السائق</label>
+
+                    <select id="invoiceDriverFilter">
+                        <option value="">جميع السائقين</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="invoiceSearch">البحث برقم الفاتورة</label>
+
+                    <input
+                        id="invoiceSearch"
+                        type="text"
+                        placeholder="اكتب رقم الفاتورة"
+                    >
+                </div>
+
+            </div>
+
+            <div id="invoicesList"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         شاشة الفاتورة الشاملة
+    ========================== -->
+
+    <section id="summaryPage" class="page">
+
+        <div class="section-heading">
+            <div>
+                <h2>الفاتورة اليومية الشاملة</h2>
+                <p>تجميع جميع الأصناف التي أخذها السائق طوال يوم العمل.</p>
+            </div>
+        </div>
+
+        <div class="panel">
+
+            <div class="filter-row">
+
+                <div>
+                    <label for="summaryDriver">اختر السائق</label>
+
+                    <select id="summaryDriver">
+                        <option value="">اختر السائق</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>يوم العمل</label>
+                    <strong id="summaryDay" class="day-label"></strong>
+                </div>
+
+            </div>
+
+            <div id="summaryContent"></div>
+
+            <div class="summary-actions">
+                <button
+                    id="printSummaryBtn"
+                    class="btn btn-primary"
+                >
+                    طباعة الفاتورة الشاملة
+                </button>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         شاشة الأرشيف
+    ========================== -->
+
+    <section id="archivePage" class="page">
+
+        <div class="section-heading">
+            <div>
+                <h2>أرشيف الأيام السابقة</h2>
+                <p>الرجوع إلى فواتير أيام العمل السابقة وطباعتها.</p>
+            </div>
+        </div>
+
+        <div class="panel">
+
+            <label for="archiveDay">اختر يوم العمل</label>
+
+            <select id="archiveDay">
+                <option value="">اختر يومًا</option>
+            </select>
+
+            <div id="archiveContent"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         إدارة النظام
+    ========================== -->
+
+    <section id="settingsPage" class="page">
+
+        <div class="section-heading">
+            <div>
+                <h2>إدارة النظام</h2>
+                <p>إضافة السائقين والأصناف وتعديل الأسعار.</p>
+            </div>
+        </div>
+
+        <div class="panel">
+
+            <h3>إضافة سائق جديد</h3>
+
+            <form id="driverForm" class="add-form">
+
+                <input
+                    id="newDriverName"
+                    type="text"
+                    placeholder="اسم السائق"
+                    required
+                >
+
+                <button class="btn btn-primary" type="submit">
+                    إضافة السائق
+                </button>
+
+            </form>
+
+            <div id="driversManagement"></div>
+
+        </div>
+
+
+        <div class="panel">
+
+            <h3>إضافة صنف جديد</h3>
+
+            <form id="itemForm" class="add-form">
+
+                <input
+                    id="newItemName"
+                    type="text"
+                    placeholder="اسم الصنف"
+                    required
+                >
+
+                <input
+                    id="newItemPrice"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    placeholder="السعر بالريال"
+                    required
+                >
+
+                <button class="btn btn-primary" type="submit">
+                    إضافة الصنف
+                </button>
+
+            </form>
+
+            <div id="itemsManagement"></div>
+
+        </div>
+
+
+        <div class="panel danger-panel">
+
+            <h3>إدارة يوم العمل</h3>
+
+            <p>
+                إنهاء يوم العمل الحالي وبدء يوم جديد، مع الاحتفاظ
+                بفواتير اليوم السابق في الأرشيف.
+            </p>
+
+            <button
+                id="resetDayBtn"
+                class="btn btn-danger"
+            >
+                تصفير عمل اليوم
+            </button>
+
+        </div>
+
+
+        <div class="panel">
+
+            <h3>النسخ الاحتياطي</h3>
+
+            <p>
+                احفظ نسخة من بيانات النظام على جهازك،
+                واستعدها عند الحاجة.
+            </p>
+
+            <div class="backup-actions">
+
+                <button
+                    id="exportDataBtn"
+                    class="btn btn-secondary"
+                >
+                    تنزيل نسخة احتياطية
+                </button>
+
+                <button
+                    id="importDataBtn"
+                    class="btn btn-secondary"
+                >
+                    استعادة نسخة احتياطية
+                </button>
+
+                <input
+                    id="importFile"
+                    type="file"
+                    accept=".json,application/json"
+                    hidden
+                >
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =========================
+     نافذة تعديل الفاتورة
+========================== -->
+
+<div id="editModal" class="modal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h2>تعديل الفاتورة</h2>
+
+            <button
+                type="button"
+                id="closeEditBtn"
+                class="close-btn"
+            >
+                ×
+            </button>
+        </div>
+
+        <p id="editInvoiceInfo"></p>
+
+        <div id="editInvoiceItems"></div>
+
+        <div class="edit-total">
+            <span>الإجمالي بعد التعديل</span>
+            <strong id="editTotal">0.00 ريال</strong>
+        </div>
+
+        <div class="modal-actions">
+
+            <button
+                id="saveEditBtn"
+                class="btn btn-primary"
+            >
+                حفظ التعديلات
+            </button>
+
+            <button
+                id="cancelEditBtn"
+                class="btn btn-secondary"
+            >
+                إلغاء
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     منطقة طباعة الفاتورة
+========================== -->
+
+<div id="printArea"></div>
+
+<div id="toast" class="toast"></div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
