@@ -351,6 +351,13 @@
 <div id="printArea" class="print-area"></div>
 
 <script src="app.js"></script>
-
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js")
+      .catch(error => console.error("خطأ في تشغيل التطبيق:", error));
+  });
+}
+</script>
 </body>
 </html>
