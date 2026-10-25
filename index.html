@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>سحايب ديرتي | حسابات السائقين</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div>
+    <div class="eyebrow">مطاعم ومطابخ</div>
+    <h1>سحايب ديرتي</h1>
+    <p>نظام صرف الأصناف وحسابات السائقين</p>
+  </div>
+
+  <div class="top-actions">
+    <button id="backupBtn" class="btn secondary">نسخة احتياطية</button>
+
+    <label class="btn secondary file-label">
+      استعادة نسخة
+      <input id="restoreInput" type="file" accept="application/json">
+    </label>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" data-page="dashboard">الرئيسية</button>
+  <button class="tab" data-page="newInvoice">فاتورة صرف جديدة</button>
+  <button class="tab" data-page="drivers">السائقون</button>
+  <button class="tab" data-page="items">الأصناف والأسعار</button>
+  <button class="tab" data-page="reports">كشف الحساب والتقارير</button>
+  <button class="tab" data-page="archive">أرشيف الفواتير</button>
+</nav>
+
+<main>
+
+<!-- الصفحة الرئيسية -->
+<section id="page-dashboard" class="page active">
+
+  <div class="welcome panel">
+    <div>
+      <h2>لوحة متابعة العمل</h2>
+      <p>كل فواتير الصرف محفوظة على هذا الجهاز في المتصفح.</p>
+    </div>
+
+    <button class="btn primary" data-go="newInvoice">
+      ＋ إنشاء فاتورة صرف
+    </button>
+  </div>
+
+  <div class="stats">
+
+    <article class="stat">
+      <span>السائقون</span>
+      <strong id="statDrivers">0</strong>
+    </article>
+
+    <article class="stat">
+      <span>فواتير اليوم</span>
+      <strong id="statInvoices">0</strong>
+    </article>
+
+    <article class="stat">
+      <span>إجمالي الكميات اليوم</span>
+      <strong id="statQty">0</strong>
+    </article>
+
+    <article class="stat">
+      <span>قيمة صرف اليوم</span>
+      <strong id="statTotal">0 ر.س</strong>
+    </article>
+
+  </div>
+
+  <div class="panel">
+
+    <div class="section-head">
+      <h2>فواتير اليوم</h2>
+
+      <button class="btn danger" id="resetDayBtn">
+        إنهاء يوم العمل / تصفير اليوم
+      </button>
+    </div>
+
+    <p class="muted">
+      التصفير ينقل فواتير اليوم إلى الأرشيف ولا يحذفها.
+      يمكنك لاحقًا استخراج كشف موحد يجمع فواتير كل سائق.
+    </p>
+
+    <div id="todayInvoices" class="table-wrap"></div>
+
+  </div>
+
+</section>
+
+
+<!-- فاتورة صرف جديدة -->
+<section id="page-newInvoice" class="page">
+
+  <div class="panel">
+
+    <h2 id="invoiceFormTitle">فاتورة صرف جديدة</h2>
+
+    <input type="hidden" id="editInvoiceId">
+
+    <div class="form-grid">
+
+      <label>
+        السائق
+        <select id="invoiceDriver"></select>
+      </label>
+
+      <label>
+        التاريخ
+        <input type="date" id="invoiceDate">
+      </label>
+
+      <label class="wide">
+        ملاحظات اختيارية
+        <input id="invoiceNotes" placeholder="ملاحظات عن عملية الصرف">
+      </label>
+
+    </div>
+
+    <div class="section-head">
+      <h3>الأصناف المصروفة</h3>
+      <span class="muted">أدخل الكمية يدويًا في الخانة الفارغة</span>
+    </div>
+
+    <div id="itemPicker" class="item-picker"></div>
+
+    <div class="table-wrap">
+
+      <table>
+        <thead>
+          <tr>
+            <th>الصنف</th>
+            <th>الكمية</th>
+            <th>سعر الوحدة</th>
+            <th>الإجمالي</th>
+            <th>الإجراء</th>
+          </tr>
+        </thead>
+
+        <tbody id="invoiceLines"></tbody>
+      </table>
+
+    </div>
+
+    <div class="invoice-total">
+      إجمالي الفاتورة:
+      <strong id="invoiceTotal">0.00 ر.س</strong>
+    </div>
+
+    <div class="actions">
+
+      <button id="saveInvoiceBtn" class="btn primary">
+        حفظ الفاتورة
+      </button>
+
+      <button id="cancelEditBtn" class="btn secondary hidden">
+        إلغاء التعديل
+      </button>
+
+      <button id="clearInvoiceBtn" class="btn secondary">
+        تفريغ النموذج
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- إدارة السائقين -->
+<section id="page-drivers" class="page">
+
+  <div class="panel">
+
+    <h2>إدارة السائقين</h2>
+
+    <form id="driverForm" class="inline-form">
+
+      <input type="hidden" id="driverId">
+
+      <label>
+        اسم السائق
+        <input id="driverName" required placeholder="اسم السائق">
+      </label>
+
+      <label>
+        رقم الجوال (اختياري)
+        <input id="driverPhone" inputmode="tel" placeholder="05xxxxxxxx">
+      </label>
+
+      <button class="btn primary" type="submit" id="driverSaveBtn">
+        إضافة سائق
+      </button>
+
+      <button class="btn secondary hidden" type="button" id="driverCancelBtn">
+        إلغاء
+      </button>
+
+    </form>
+
+    <div id="driversTable" class="table-wrap"></div>
+
+  </div>
+
+</section>
+
+
+<!-- إدارة الأصناف -->
+<section id="page-items" class="page">
+
+  <div class="panel">
+
+    <h2>إدارة الأصناف والأسعار</h2>
+
+    <form id="itemForm" class="inline-form">
+
+      <input type="hidden" id="itemId">
+
+      <label>
+        اسم الصنف
+        <input id="itemName" required placeholder="مثال: وجبة دجاج شواية">
+      </label>
+
+      <label>
+        سعر الوحدة (ريال)
+        <input id="itemPrice" required type="number" min="0" step="0.01" placeholder="0.00">
+      </label>
+
+      <button class="btn primary" type="submit" id="itemSaveBtn">
+        إضافة صنف
+      </button>
+
+      <button class="btn secondary hidden" type="button" id="itemCancelBtn">
+        إلغاء
+      </button>
+
+    </form>
+
+    <div id="itemsTable" class="table-wrap"></div>
+
+  </div>
+
+</section>
+
+
+<!-- التقارير وكشف الحساب -->
+<section id="page-reports" class="page">
+
+  <div class="panel">
+
+    <h2>كشف حساب السائق / التقرير الموحد</h2>
+
+    <div class="form-grid report-filters">
+
+      <label>
+        نوع التقرير
+        <select id="reportType">
+          <option value="driver">سائق محدد</option>
+          <option value="all">جميع السائقين</option>
+        </select>
+      </label>
+
+      <label id="reportDriverWrap">
+        السائق
+        <select id="reportDriver"></select>
+      </label>
+
+      <label>
+        من تاريخ
+        <input type="date" id="reportFrom">
+      </label>
+
+      <label>
+        إلى تاريخ
+        <input type="date" id="reportTo">
+      </label>
+
+      <div class="filter-actions">
+
+        <button class="btn primary" id="showReportBtn">
+          عرض التقرير
+        </button>
+
+        <button class="btn secondary" id="printReportBtn">
+          طباعة 80 مم
+        </button>
+
+      </div>
+
+    </div>
+
+    <div id="reportOutput"></div>
+
+  </div>
+
+</section>
+
+
+<!-- الأرشيف -->
+<section id="page-archive" class="page">
+
+  <div class="panel">
+
+    <div class="section-head">
+
+      <h2>أرشيف الفواتير</h2>
+
+      <button id="clearArchiveBtn" class="btn danger">
+        حذف الأرشيف القديم
+      </button>
+
+    </div>
+
+    <div class="form-grid">
+
+      <label>
+        بحث باسم السائق
+        <input id="archiveSearch" placeholder="اكتب اسم السائق">
+      </label>
+
+      <label>
+        التاريخ
+        <input type="date" id="archiveDate">
+      </label>
+
+    </div>
+
+    <div id="archiveTable" class="table-wrap"></div>
+
+  </div>
+
+</section>
+
+</main>
+
+<div id="toast" class="toast"></div>
+
+<div id="printArea" class="print-area"></div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
