@@ -502,6 +502,8 @@ $("cancelEditBtn").onclick = clearInvoiceForm;
 
 /* حفظ الفاتورة */
 
+/* حفظ الفاتورة ثم طباعتها تلقائيًا */
+
 $("saveInvoiceBtn").onclick = () => {
   const driverId = $("invoiceDriver").value;
   const date = $("invoiceDate").value;
@@ -552,14 +554,19 @@ $("saveInvoiceBtn").onclick = () => {
     db.invoices.push(inv);
   }
 
+  // حفظ الفاتورة في قاعدة البيانات
   saveDB();
+
+  // طباعة الفاتورة المحفوظة مباشرة
+  window.printSingle(inv.id);
+
+  // تفريغ النموذج بعد الحفظ
   clearInvoiceForm();
 
-  toast(old ? "تم تحديث الفاتورة" : "تم حفظ الفاتورة");
+  toast(old ? "تم تحديث الفاتورة وإرسالها للطباعة" : "تم حفظ الفاتورة وإرسالها للطباعة");
 
   nav("dashboard");
 };
-
 
 /* تعديل الفاتورة */
 
