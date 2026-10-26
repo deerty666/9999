@@ -1230,9 +1230,13 @@ window.printSingle = id => {
   `).join("");
 
   $("printArea").innerHTML = `
-    <div class="receipt">
+<div class="receipt">
 
-      <h2>مطاعم ومطابخ سحايب ديرتي</h2>
+  <div class="receipt-logo">
+    <img src="./logo.png" alt="شعار مطاعم سحايب ديرتي">
+  </div>
+
+  <h2>مطاعم ومطابخ سحايب ديرتي</h2>
 
       <h3>فاتورة صرف أصناف</h3>
 
