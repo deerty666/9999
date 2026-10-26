@@ -1272,7 +1272,7 @@ window.printSingle = id => {
         الإجمالي: ${invoiceTotal(inv).toFixed(2)} ريال
       </div>
 
-      <div class="smallprint">شكرًا لكم</div>
+      <div class="smallprint">أبو ريتاج</div>
 
     </div>
   `;
