@@ -574,16 +574,20 @@ td input.qty-input {
     box-shadow: none !important;
   }
 }
+
+/* كود تكبير شعار الفاتورة */
 .receipt-logo {
   text-align: center;
   margin-bottom: 8px;
+  width: 100%;
 }
 
 .receipt-logo img {
   display: block;
-  width: 140px;
-  max-width: 100%;
-  max-height: 100px;
+  width: 180px !important;
+  max-width: 100% !important;
+  height: auto !important;
+  max-height: 130px !important;
   object-fit: contain;
   margin: 0 auto;
 }
