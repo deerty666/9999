@@ -1251,100 +1251,202 @@ $("printReportBtn").onclick = () => {
 /* =========================
    طباعة فاتورة منفردة
 ========================= */
-
 window.printSingle = id => {
-  const inv = db.invoices.find(x => x.id === id);
+const inv = db.invoices.find(x => x.id === id);
+if (!inv) return;
 
-  if (!inv) return;
+const rows = (inv.items || []).map(x => "<tr> <td class="item-name">${esc(x.name)}</td> <td>${Number(x.qty || 0)}</td> <td>${Number(x.price || 0).toFixed(2)}</td> <td>${(Number(x.qty || 0) * Number(x.price || 0)).toFixed(2)}</td> </tr>").join("");
 
-  const rows = (inv.items || []).map(x => `
-    <tr>
-      <td>${esc(x.name)}</td>
-      <td>${Number(x.qty || 0)}</td>
-      <td>${Number(x.price || 0).toFixed(2)}</td>
-      <td>${(
-        Number(x.qty || 0) * Number(x.price || 0)
-      ).toFixed(2)}</td>
-    </tr>
-  `).join("");
-
-  $("printArea").innerHTML = `
-<div class="receipt">
+$("printArea").innerHTML = `
+<div class="receipt compact-receipt">
 
   <div class="receipt-logo">
-    <img src="./logo.png" alt="شعار مطاعم سحايب ديرتي">
+    <img src="./logo.png" alt="ديرتي">
   </div>
 
   <h2>مطاعم ومطابخ سحايب ديرتي</h2>
+  <h3>فاتورة صرف أصناف</h3>
 
-      <h3>فاتورة صرف أصناف</h3>
-
-      <div class="center">
-        رقم الفاتورة:
-        ${esc(inv.number || String(inv.id).slice(-6))}
-      </div>
-
-      <div>السائق: ${esc(driverLabel(inv.driverId))}</div>
-
-      <div>التاريخ: ${esc(inv.date)}</div>
-
-      ${inv.notes
-        ? `<div>ملاحظات: ${esc(inv.notes)}</div>`
-        : ""}
-
-      <div class="rule"></div>
-
-      <table>
-        <thead>
-          <tr>
-            <th>الصنف</th>
-            <th>كمية</th>
-            <th>سعر</th>
-            <th>الإجمالي</th>
-          </tr>
-        </thead>
-
-        <tbody>${rows}</tbody>
-      </table>
-
-      <div class="rule"></div>
-
-      <div>مجموع الكميات: ${sumQty(inv.items)}</div>
-
-      <div class="grand">
-        الإجمالي: ${invoiceTotal(inv).toFixed(2)} ريال
-      </div>
-
-      <div class="smallprint"> ديرتي</div>
-<div style="border:1px solid #000;padding:8px;margin-top:12px;text-align:right;font-size:12px;line-height:2;page-break-inside:avoid;">
-
-  <div style="text-align:center;font-weight:bold;border-bottom:1px dashed #000;padding-bottom:5px;margin-bottom:5px;">
-    ملاحظات مدير الصالة
+  <div class="meta">
+    <div>رقم الفاتورة: ${esc(inv.number || String(inv.id).slice(-6))}</div>
+    <div>السائق: ${esc(driverLabel(inv.driverId))}</div>
+    <div>التاريخ: ${esc(inv.date)}</div>
   </div>
 
-  <div>الملاحظة: ............................</div>
+  ${inv.notes ? `<div class="notes">ملاحظات: ${esc(inv.notes)}</div>` : ""}
 
-  <div style="font-weight:bold;margin-top:5px;">
-    في حال الكنسلة:
+  <div class="rule"></div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>الصنف</th>
+        <th>كمية</th>
+        <th>سعر</th>
+        <th>الإجمالي</th>
+      </tr>
+    </thead>
+    <tbody>${rows}</tbody>
+  </table>
+
+  <div class="rule"></div>
+
+  <div class="qty-total">مجموع الكميات: ${sumQty(inv.items)}</div>
+
+  <div class="grand">
+    الإجمالي: ${invoiceTotal(inv).toFixed(2)} ريال
   </div>
 
-  <div>اسم المكنسل: ........................</div>
+  <div class="smallprint">ديرتي</div>
 
-  <div>سبب الكنسلة: .........................</div>
-
-  <div style="margin-top:8px;">
-    توقيع مدير الصالة:
+  <div class="manager-box">
+    <div class="manager-title">ملاحظات مدير الصالة</div>
+    <div>الملاحظة: ...........................</div>
+    <div class="cancel-title">في حال الكنسلة:</div>
+    <div>اسم المكنسل: ........................</div>
+    <div>سبب الكنسلة: .........................</div>
+    <div class="signature-title">توقيع مدير الصالة:</div>
+    <div class="signature-line"></div>
   </div>
-
-  <div style="height:35px;border-bottom:1px solid #000;"></div>
 
 </div>
-    </div>
-  `;
 
-  window.print();
+<style>
+  @media print {
+    @page {
+      size: 80mm auto;
+      margin: 2mm;
+    }
+
+    body {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    #printArea {
+      width: 72mm !important;
+      margin: 0 auto !important;
+      padding: 0 !important;
+    }
+
+    .compact-receipt {
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      font-family: Arial, sans-serif !important;
+      font-size: 11px !important;
+      line-height: 1.35 !important;
+      color: #000 !important;
+      direction: rtl;
+      box-sizing: border-box;
+    }
+
+    .compact-receipt .receipt-logo {
+      text-align: center;
+      margin: 0 0 2px !important;
+    }
+
+    .compact-receipt .receipt-logo img {
+      max-width: 35mm !important;
+      max-height: 12mm !important;
+      object-fit: contain;
+    }
+
+    .compact-receipt h2 {
+      font-size: 14px !important;
+      margin: 2px 0 !important;
+      text-align: center;
+    }
+
+    .compact-receipt h3 {
+      font-size: 12px !important;
+      margin: 2px 0 4px !important;
+      text-align: center;
+    }
+
+    .compact-receipt .meta > div,
+    .compact-receipt .notes,
+    .compact-receipt .qty-total {
+      margin: 2px 0 !important;
+    }
+
+    .compact-receipt .rule {
+      border-top: 1px dashed #000;
+      margin: 4px 0 !important;
+    }
+
+    .compact-receipt table {
+      width: 100% !important;
+      border-collapse: collapse !important;
+      table-layout: fixed;
+      font-size: 10px !important;
+    }
+
+    .compact-receipt th,
+    .compact-receipt td {
+      padding: 3px 1px !important;
+      text-align: center;
+      border-bottom: 1px dotted #888;
+      overflow-wrap: anywhere;
+    }
+
+    .compact-receipt th:first-child,
+    .compact-receipt .item-name {
+      text-align: right;
+    }
+
+    .compact-receipt .grand {
+      font-size: 16px !important;
+      font-weight: bold;
+      text-align: center;
+      margin: 5px 0 !important;
+      padding: 4px 0 !important;
+      border-top: 1px solid #000;
+      border-bottom: 1px solid #000;
+    }
+
+    .compact-receipt .smallprint {
+      text-align: center;
+      margin: 3px 0 !important;
+    }
+
+    .compact-receipt .manager-box {
+      border: 1px solid #000;
+      padding: 5px !important;
+      margin-top: 5px !important;
+      font-size: 10px !important;
+      line-height: 1.6 !important;
+      page-break-inside: avoid;
+    }
+
+    .compact-receipt .manager-title {
+      text-align: center;
+      font-weight: bold;
+      border-bottom: 1px dashed #000;
+      padding-bottom: 3px;
+      margin-bottom: 3px;
+    }
+
+    .compact-receipt .cancel-title {
+      font-weight: bold;
+      margin-top: 3px;
+    }
+
+    .compact-receipt .signature-title {
+      margin-top: 4px;
+    }
+
+    .compact-receipt .signature-line {
+      height: 15px;
+      border-bottom: 1px solid #000;
+    }
+  }
+</style>
+
+`;
+
+window.print();
 };
-
 
 /* =========================
    عرض الأرشيف
