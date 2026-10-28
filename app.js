@@ -2,7 +2,23 @@
 "use strict";
 
 const KEY = "deerty_driver_accounts_v2";
+/* =========================
+   الأصناف الأساسية الثابتة
+========================= */
 
+const DEFAULT_ITEMS = [
+  { id: "base_001", name: "ربع دجاج رز شعبي", price: 8.50 },
+  { id: "base_002", name: "ربع دجاج رز بشاور", price: 9 },
+  { id: "base_003", name: "نص مضغوط", price: 18 },
+  { id: "base_004", name: "نص دجاج رز بشاور", price: 18 },
+  { id: "base_005", name: "ببسي صغير", price: 3 },
+  { id: "base_006", name: "ببسي وسط", price: 5 },
+  { id: "base_007", name: "ببسي كبير", price: 9 },
+  { id: "base_008", name: "مشكل خضار", price: 8 },
+  { id: "base_009", name: "مشكل فرن", price: 8 },
+  { id: "base_010", name: "مسقع", price: 10 },
+  { id: "base_011", name: "نفر رز ساده", price: 9 }
+];
 const $ = id => document.getElementById(id);
 
 const today = () => {
@@ -37,25 +53,58 @@ let draft = [];
 ========================= */
 
 function loadDB() {
-  try {
-    const x = JSON.parse(localStorage.getItem(KEY));
+try {
+const x = JSON.parse(localStorage.getItem(KEY));
 
-    if (
-      x &&
-      Array.isArray(x.drivers) &&
-      Array.isArray(x.items) &&
-      Array.isArray(x.invoices)
-    ) {
-      return x;
-    }
-  } catch (e) {}
+if (
+  x &&
+  Array.isArray(x.drivers) &&
+  Array.isArray(x.items) &&
+  Array.isArray(x.invoices)
+) {
+  const migrationKey = "deerty_base_items_migrated_v1";
 
-  return {
-    drivers: [],
-    items: [],
-    invoices: [],
-    dayStarted: today()
-  };
+  if (localStorage.getItem(migrationKey) !== "yes") {
+    // استبدال الأصناف القديمة بالأساسية أول مرة فقط
+    x.items = DEFAULT_ITEMS.map(item => ({
+      ...item,
+      inactive: false,
+      isDefault: true
+    }));
+
+    localStorage.setItem(migrationKey, "yes");
+  } else {
+    // تثبيت الأصناف الأساسية مع الاحتفاظ بالأصناف المضافة لاحقًا
+    const customItems = x.items.filter(
+      item => !DEFAULT_ITEMS.some(base => base.id === item.id)
+    );
+
+    x.items = [
+      ...DEFAULT_ITEMS.map(item => ({
+        ...item,
+        inactive: false,
+        isDefault: true
+      })),
+      ...customItems
+    ];
+  }
+
+  localStorage.setItem(KEY, JSON.stringify(x));
+  return x;
+}
+
+} catch (e) {}
+
+return {
+drivers: [],
+items: DEFAULT_ITEMS.map(item => ({
+...item,
+inactive: false,
+isDefault: true
+})),
+invoices: [],
+dayStarted: today()
+};
 }
 
 function saveDB() {
