@@ -239,21 +239,11 @@ function tableInvoices(list) {
             </td>
 
             <td>
-              <button class="btn small secondary"
-                onclick="editInvoice('${inv.id}')">
-                تعديل
-              </button>
-
-              <button class="btn small secondary"
-                onclick="printSingle('${inv.id}')">
-                طباعة
-              </button>
-
-              <button class="btn small danger"
-                onclick="cancelInvoice('${inv.id}')">
-                إلغاء
-              </button>
-            </td>
+  <button class="btn small secondary"
+    onclick="printSingle('${inv.id}')">
+    طباعة
+  </button>
+</td>
           </tr>
         `).join("")}
       </tbody>
@@ -1276,8 +1266,30 @@ window.printSingle = id => {
         الإجمالي: ${invoiceTotal(inv).toFixed(2)} ريال
       </div>
 
-      <div class="smallprint">أبو ريتاج</div>
+      <div class="smallprint"> ديرتي</div>
+<div style="border:1px solid #000;padding:8px;margin-top:12px;text-align:right;font-size:12px;line-height:2;page-break-inside:avoid;">
 
+  <div style="text-align:center;font-weight:bold;border-bottom:1px dashed #000;padding-bottom:5px;margin-bottom:5px;">
+    ملاحظات مدير الصالة
+  </div>
+
+  <div>الملاحظة: ............................</div>
+
+  <div style="font-weight:bold;margin-top:5px;">
+    في حال الكنسلة:
+  </div>
+
+  <div>اسم المكنسل: ........................</div>
+
+  <div>سبب الكنسلة: .........................</div>
+
+  <div style="margin-top:8px;">
+    توقيع مدير الصالة:
+  </div>
+
+  <div style="height:35px;border-bottom:1px solid #000;"></div>
+
+</div>
     </div>
   `;
 
