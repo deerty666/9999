@@ -1315,7 +1315,7 @@ window.printSingle = id => {
         الإجمالي: ${invoiceTotal(inv).toFixed(2)} ريال
       </div>
 
-      <div class="smallprint"> ديرتي</div>
+      
 <div style="border:1px solid #000;padding:8px;margin-top:12px;text-align:right;font-size:12px;line-height:2;page-break-inside:avoid;">
 
   <div style="text-align:center;font-weight:bold;border-bottom:1px dashed #000;padding-bottom:5px;margin-bottom:5px;">
@@ -1330,7 +1330,7 @@ window.printSingle = id => {
 
   <div>اسم المكنسل: ........................</div>
 
-  <div>سبب الكنسلة: .........................</div>
+  
 
   <div style="margin-top:8px;">
     توقيع مدير الصالة:
