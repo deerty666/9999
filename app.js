@@ -1342,7 +1342,27 @@ window.printSingle = id => {
     </div>
   `;
 
+ const printImages = $("printArea").querySelectorAll("img");
+
+Promise.all(
+  Array.from(printImages).map(img => {
+    if (img.complete && img.naturalWidth > 0) {
+      return Promise.resolve();
+    }
+
+    return new Promise(resolve => {
+      img.onload = resolve;
+      img.onerror = resolve;
+      setTimeout(resolve, 3000);
+    });
+  })
+).then(async () => {
+  if (document.fonts?.ready) {
+    await document.fonts.ready;
+  }
+
   window.print();
+}); 
 };
 
 
