@@ -1239,10 +1239,34 @@ $("printReportBtn").onclick = () => {
 
       <div class="smallprint">
         تم استخراج الكشف من فواتير الصرف الفعالة المحفوظة.
-      </div>
+      </div>  <div style="border:1px solid #000;padding:8px;margin-top:12px;text-align:right;font-size:12px;line-height:2;page-break-inside:avoid;">
 
+    <div style="text-align:center;font-weight:bold;border-bottom:1px dashed #000;padding-bottom:5px;margin-bottom:5px;">
+      ملاحظات مدير الصالة
     </div>
-  `;
+
+    <div>الملاحظة: ................................</div>
+
+    <div style="font-weight:bold;margin-top:5px;">
+      في حال الكنسلة:
+    </div>
+
+    <div>رقم الفاتورة: ............................</div>
+
+    <div>اسم المكنسل: ............................</div>
+
+
+    <div style="margin-top:8px;">
+      توقيع مدير الصالة:
+    </div>
+
+    <div style="height:35px;border-bottom:1px solid #000;"></div>
+
+  </div>
+
+</div>
+
+`;
 
   window.print();
 };
