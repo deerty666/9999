@@ -1182,7 +1182,9 @@ $("printReportBtn").onclick = () => {
 
   $("printArea").innerHTML = `
     <div class="receipt">
-
+<div class="receipt-logo">
+  <img src="./logo.png" alt="شعار مطاعم سحايب ديرتي">
+</div>
       <h2>مطاعم ومطابخ سحايب ديرتي</h2>
 
       <h3>
