@@ -578,16 +578,16 @@ td input.qty-input {
 /* كود تكبير شعار الفاتورة */
 .receipt-logo {
   text-align: center;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
   width: 100%;
 }
 
 .receipt-logo img {
   display: block;
-  width: 180px !important;
+  width: 140px !important;
   max-width: 100% !important;
   height: auto !important;
-  max-height: 130px !important;
+  max-height: 100px !important;
   object-fit: contain;
   margin: 0 auto;
 }
