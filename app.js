@@ -20,7 +20,7 @@ const DEFAULT_ITEMS = [
   { id: "base_008", name: "مشكل خضار", price: 8 },
   { id: "base_009", name: "مشكل فرن", price: 8 },
   { id: "base_010", name: "مسقع", price: 10 },
-  { id: "base_011", name: "نفر رز ساده", price: 9 }
+  { id: "base_011", name: "نفر رز ساده", price: 8 }
 ];
 const $ = id => document.getElementById(id);
 
