@@ -947,9 +947,10 @@ function aggregate(invoices) {
 
   for (const inv of invoices) {
     for (const x of (inv.items || [])) {
-      const key =
-        x.itemId ||
-        String(x.name || "").trim().toLowerCase();
+      const key = String(x.name || "")
+  .trim()
+  .replace(/\s+/g, " ")
+  .toLowerCase();
 
       const row = map.get(key) || {
         name: x.name || "صنف بدون اسم",
