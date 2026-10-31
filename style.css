@@ -252,7 +252,20 @@ select:focus {
   text-align: right;
   white-space: normal;
 }
+/* تأثير الضغط على بطاقات الأصناف */
+.item-card {
+  transition: transform 0.18s ease,
+              box-shadow 0.18s ease,
+              border-color 0.18s ease;
+  -webkit-tap-highlight-color: transparent;
+}
 
+.item-card:active {
+  transform: scale(0.96);
+  border-color: var(--gold);
+  box-shadow: 0 0 16px rgba(232, 192, 101, 0.4);
+  background: #30291d;
+}
 .item-card .item-icon {
   display: inline-grid;
   place-items: center;
