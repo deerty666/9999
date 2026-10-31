@@ -591,3 +591,26 @@ td input.qty-input {
   object-fit: contain;
   margin: 0 auto;
 }
+/* منع تحديد النصوص ونسخها في التطبيق */
+body {
+-webkit-user-select: none;
+user-select: none;
+-webkit-touch-callout: none;
+}
+
+/* السماح بتحديد النص داخل حقول الإدخال */
+input,
+textarea {
+-webkit-user-select: text;
+user-select: text;
+}
+
+/* السماح بتحديد النص أثناء طباعة الفواتير */
+@media print {
+body,
+.receipt,
+.receipt * {
+-webkit-user-select: text !important;
+user-select: text !important;
+}
+}
