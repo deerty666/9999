@@ -11,6 +11,7 @@ const DEFAULT_ITEMS = [
    { id: "base_012", name: "نص دجاج رز شعبي", price: 17 },
    { id: "base_013", name: " نفررز ساده ", price: 8 },
   { id: "base_002", name: "ربع دجاج رز بشاور", price: 9 },
+   { id: "base_022", name: "ربع مظغوط", price: 9 },
   { id: "base_003", name: "نص مضغوط", price: 18 },
   { id: "base_004", name: "نص دجاج رز بشاور", price: 18 },
   { id: "base_005", name: "ببسي صغير", price: 3 },
