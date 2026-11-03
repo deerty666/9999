@@ -16,7 +16,7 @@ const DEFAULT_ITEMS = [
   { id: "base_005", name: "ببسي صغير", price: 3 },
   { id: "base_006", name: "ببسي وسط", price: 5 },
   { id: "base_007", name: "ببسي كبير", price: 9 },
-   { id: "base_013", name: " كرتون ماءكاسات ", price: 8 },
+   { id: "base_0153", name: " كرتون ماءكاسات ", price: 8 },
    { id: "base_014", name: "  زبادي", price: 2 },
   { id: "base_008", name: "مشكل خضار", price: 8 },
   { id: "base_009", name: "مشكل فرن", price: 8 },
@@ -461,14 +461,36 @@ function addDraftItem(id) {
     return toast("الصنف موجود؛ عدّل الكمية في الجدول.");
   }
 
+  // إنشاء خانة إدخال الكمية
+  const qty = prompt(
+    `أدخل كمية الصنف:\n${item.name}`,
+    "1"
+  );
+
+  // إلغاء العملية
+  if (qty === null) return;
+
+  const quantity = Number(qty);
+
+  // التحقق من الكمية
+  if (
+    qty.trim() === "" ||
+    !Number.isInteger(quantity) ||
+    quantity <= 0
+  ) {
+    return toast("أدخل كمية صحيحة أكبر من صفر.");
+  }
+
   draft.push({
     itemId: item.id,
     name: item.name,
     price: Number(item.price),
-    qty: ""
+    qty: quantity
   });
 
   renderDraft();
+
+  toast(`تمت إضافة ${item.name} × ${quantity}`);
 }
 
 window.addDraftItem = addDraftItem;
