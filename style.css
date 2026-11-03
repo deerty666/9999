@@ -627,3 +627,502 @@ body,
 user-select: text !important;
 }
 }
+/* =========================================
+   تصميم كاشير سحايب ديرتي
+   واجهة زرقاء وبيضاء
+========================================= */
+
+:root {
+  --bg: #edf2fa;
+  --panel: #ffffff;
+  --panel2: #f3f6fc;
+
+  --gold: #1769dc;
+  --gold2: #4c8df0;
+
+  --text: #25334a;
+  --muted: #77849a;
+  --line: #dce5f2;
+
+  --red: #e45d50;
+  --green: #24a66a;
+
+  --blue-dark: #1456bb;
+  --blue-light: #5795f4;
+}
+
+/* الخلفية العامة */
+
+body {
+  background: #edf2fa;
+  color: #25334a;
+  font-family: 'Cairo', Tahoma, Arial, sans-serif;
+}
+
+/* الشريط العلوي */
+
+.topbar {
+  background: linear-gradient(120deg, #123f91, #2776df);
+  color: #fff;
+  padding: 15px 30px;
+  border: none;
+  box-shadow: 0 4px 18px #123f9125;
+}
+
+.topbar h1 {
+  color: #fff;
+  font-size: 34px;
+  font-weight: 900;
+}
+
+.topbar p,
+.topbar .eyebrow {
+  color: #e2edff;
+}
+
+/* أزرار النسخ الاحتياطي */
+
+.topbar .btn.secondary {
+  background: #ffffff;
+  color: #1555ad;
+  border: none;
+}
+
+/* شريط التنقل */
+
+.tabs {
+  background: #fff;
+  border-bottom: 1px solid #dce5f2;
+  padding: 10px 20px;
+  gap: 10px;
+}
+
+.tab {
+  background: #eef3fb;
+  color: #42536c;
+  border-radius: 12px;
+  padding: 11px 18px;
+  transition: .2s;
+}
+
+.tab.active {
+  background: linear-gradient(120deg, #1456bb, #4289ed);
+  color: white;
+  box-shadow: 0 4px 12px #1769dc35;
+}
+
+/* الأزرار العامة */
+
+.btn {
+  border-radius: 11px;
+  transition: .2s;
+}
+
+.btn.primary {
+  background: linear-gradient(120deg, #1456bb, #4289ed);
+  color: white;
+}
+
+.btn.secondary {
+  background: #eaf0fa;
+  color: #355276;
+  border: 1px solid #d5e0f0;
+}
+
+.btn.danger {
+  background: #e45d50;
+  color: #fff;
+}
+
+.btn:hover {
+  filter: brightness(1.04);
+  transform: translateY(-1px);
+}
+
+/* البطاقات */
+
+.panel,
+.stat {
+  background: #fff;
+  border: 1px solid #dfe7f3;
+  border-radius: 17px;
+  box-shadow: 0 5px 20px #1b42700b;
+  color: #25334a;
+}
+
+/* الإحصائيات */
+
+.stat strong {
+  color: #1769dc;
+}
+
+/* =========================================
+   تقسيم شاشة الفاتورة إلى قسمين
+========================================= */
+
+.invoice-workspace {
+  display: grid;
+  grid-template-columns: minmax(390px, 0.9fr) minmax(0, 1.5fr);
+  gap: 18px;
+  align-items: start;
+  direction: ltr;
+}
+
+/* القسم الأيسر */
+
+.invoice-side {
+  direction: rtl;
+  min-width: 0;
+  padding: 20px;
+  border-top: 5px solid #2876dc;
+}
+
+/* القسم الأيمن */
+
+.items-side {
+  direction: rtl;
+  min-width: 0;
+  padding: 20px;
+  border-top: 5px solid #2876dc;
+}
+
+/* عناوين القسمين */
+
+.invoice-side-title {
+  margin-bottom: 18px;
+  border-bottom: 1px solid #e4eaf4;
+  padding-bottom: 13px;
+}
+
+.invoice-side-title h2,
+.items-heading h2 {
+  margin: 0;
+  color: #174f9f;
+  font-size: 23px;
+  font-weight: 900;
+}
+
+.invoice-side-title span,
+.items-heading p {
+  color: #8491a5;
+  font-size: 13px;
+  margin: 4px 0 0;
+}
+
+/* بيانات الفاتورة */
+
+.invoice-fields {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.invoice-fields label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #52647e;
+  font-weight: 800;
+}
+
+.invoice-fields input,
+.invoice-fields select {
+  width: 100%;
+  min-height: 43px;
+  background: #f7f9fd;
+  color: #263c59;
+  border: 1px solid #d7e1ef;
+  border-radius: 9px;
+  padding: 9px 12px;
+  font-family: inherit;
+}
+
+.invoice-fields input:focus,
+.invoice-fields select:focus {
+  border-color: #2876dc;
+  outline: none;
+  box-shadow: 0 0 0 3px #2876dc15;
+}
+
+/* عنوان تفاصيل الفاتورة */
+
+.invoice-lines-heading {
+  border-bottom: 1px solid #e5ebf4;
+  margin-bottom: 10px;
+}
+
+.invoice-lines-heading h3 {
+  color: #174f9f;
+  font-size: 18px;
+}
+
+/* جدول الفاتورة */
+
+.invoice-table-wrap {
+  max-height: 300px;
+  overflow: auto;
+  border: 1px solid #e2e9f3;
+  border-radius: 10px;
+}
+
+.invoice-table-wrap table {
+  min-width: 490px;
+  font-size: 13px;
+}
+
+.invoice-table-wrap th {
+  background: #edf4ff;
+  color: #174f9f;
+}
+
+.invoice-table-wrap td {
+  color: #35465e;
+}
+
+/* إجمالي الفاتورة */
+
+.invoice-total {
+  background: #edf5ff;
+  border: 1px solid #d5e7ff;
+  border-radius: 12px;
+  padding: 15px;
+  margin-top: 15px;
+  justify-content: space-between;
+  color: #174f9f;
+  font-weight: 800;
+}
+
+.invoice-total strong {
+  color: #1456bb;
+  font-size: 25px;
+}
+
+/* أزرار الفاتورة */
+
+.invoice-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+  margin-top: 15px;
+}
+
+.invoice-buttons button {
+  min-height: 46px;
+  white-space: normal;
+}
+
+#saveInvoiceBtn {
+  grid-column: 1 / -1;
+  background: linear-gradient(120deg, #138b59, #28b879);
+  color: white;
+  font-size: 16px;
+}
+
+/* =========================================
+   قائمة الأصناف
+========================================= */
+
+.items-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e5ebf4;
+  padding-bottom: 14px;
+  margin-bottom: 15px;
+}
+
+.items-icon {
+  font-size: 30px;
+  color: #2876dc;
+}
+
+/* شبكة الأصناف */
+
+.item-picker {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 13px;
+  margin: 0;
+}
+
+/* بطاقة الصنف */
+
+.item-card {
+  min-height: 105px;
+  background: linear-gradient(135deg, #1556b8, #4389ed);
+  border: none;
+  border-radius: 17px;
+  color: #fff;
+  padding: 15px 10px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 900;
+  box-shadow: 0 5px 12px #1456bb25;
+  transition: .2s;
+}
+
+.item-card b {
+  color: #fff;
+  margin-top: 8px;
+}
+
+.item-card small {
+  color: #e4efff;
+  font-size: 14px;
+}
+
+.item-card .item-icon {
+  background: #ffffff25;
+  color: #fff;
+  margin: 0 auto 5px;
+}
+
+.item-card:hover {
+  background: linear-gradient(135deg, #10469b, #2876dc);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 18px #1456bb35;
+}
+
+.item-card:active {
+  transform: scale(.96);
+  background: #10469b;
+}
+
+/* الجداول في بقية الصفحات */
+
+table {
+  color: #34445b;
+}
+
+th {
+  background: #edf4ff;
+  color: #174f9f;
+}
+
+td {
+  border-bottom: 1px solid #e7edf5;
+}
+
+/* حقول الإدخال في بقية الصفحات */
+
+input,
+select {
+  background: #f7f9fd;
+  color: #263c59;
+  border: 1px solid #d7e1ef;
+}
+
+input:focus,
+select:focus {
+  border-color: #2876dc;
+}
+
+/* التقارير والإحصائيات */
+
+.report-card {
+  border-color: #dce5f2;
+  background: #fff;
+}
+
+.report-heading h2 {
+  color: #1769dc;
+}
+
+.report-total {
+  color: #1769dc;
+}
+
+/* =========================================
+   الشاشات المتوسطة
+========================================= */
+
+@media (max-width: 1000px) {
+
+  .invoice-workspace {
+    grid-template-columns: minmax(0, 1fr);
+    direction: rtl;
+  }
+
+  .items-side {
+    order: 1;
+  }
+
+  .invoice-side {
+    order: 2;
+  }
+
+  .item-picker {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+}
+
+/* =========================================
+   الجوال
+========================================= */
+
+@media (max-width: 600px) {
+
+  .topbar {
+    padding: 15px;
+  }
+
+  .topbar h1 {
+    font-size: 27px;
+  }
+
+  .tabs {
+    padding: 9px;
+  }
+
+  .tab {
+    padding: 9px 13px;
+    font-size: 12px;
+  }
+
+  .invoice-side,
+  .items-side {
+    padding: 13px;
+  }
+
+  .item-picker {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+  }
+
+  .item-card {
+    min-height: 90px;
+    font-size: 14px;
+    padding: 10px 6px;
+  }
+
+  .invoice-buttons {
+    grid-template-columns: 1fr;
+  }
+
+  #saveInvoiceBtn {
+    grid-column: auto;
+  }
+
+  .invoice-total strong {
+    font-size: 21px;
+  }
+
+}
+
+/* =========================================
+   الطباعة: المحافظة على إعدادات الطباعة القديمة
+========================================= */
+
+@media print {
+
+  .invoice-workspace,
+  .invoice-side,
+  .items-side {
+    display: block !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+}
