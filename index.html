@@ -102,83 +102,105 @@
 
 
 <!-- فاتورة صرف جديدة -->
+<!-- فاتورة صرف جديدة -->
 <section id="page-newInvoice" class="page">
 
-  <div class="panel">
+  <div class="invoice-workspace">
 
-    <h2 id="invoiceFormTitle">فاتورة صرف جديدة</h2>
+    <!-- القسم الأيسر: بيانات الفاتورة -->
+    <div class="invoice-side panel">
 
-    <input type="hidden" id="editInvoiceId">
+      <div class="invoice-side-title">
+        <h2 id="invoiceFormTitle">فاتورة صرف جديدة</h2>
+        <span>بيانات عملية الصرف</span>
+      </div>
 
-    <div class="form-grid">
+      <input type="hidden" id="editInvoiceId">
 
-      <label>
-        السائق
-        <select id="invoiceDriver"></select>
-      </label>
+      <div class="invoice-fields">
 
-      <label>
-        التاريخ
-        <input type="date" id="invoiceDate">
-      </label>
+        <label>
+          اسم السائق
+          <select id="invoiceDriver"></select>
+        </label>
 
-      <label class="wide">
-        ملاحظات اختيارية
-        <input id="invoiceNotes" placeholder="ملاحظات عن عملية الصرف">
-      </label>
+        <label>
+          تاريخ الفاتورة
+          <input type="date" id="invoiceDate">
+        </label>
+
+        <label class="wide">
+          ملاحظات اختيارية
+          <input id="invoiceNotes"
+                 placeholder="أدخل ملاحظات عن عملية الصرف">
+        </label>
+
+      </div>
+
+      <div class="invoice-lines-heading">
+        <h3>تفاصيل الفاتورة</h3>
+      </div>
+
+      <div class="table-wrap invoice-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>الصنف</th>
+              <th>الكمية</th>
+              <th>السعر</th>
+              <th>الإجمالي</th>
+              <th>حذف</th>
+            </tr>
+          </thead>
+
+          <tbody id="invoiceLines"></tbody>
+        </table>
+      </div>
+
+      <div class="invoice-total">
+        <span>إجمالي الفاتورة</span>
+        <strong id="invoiceTotal">0.00 ر.س</strong>
+      </div>
+
+      <div class="invoice-buttons">
+
+        <button id="saveInvoiceBtn" class="btn primary">
+          💾 حفظ الفاتورة
+        </button>
+
+        <button id="cancelEditBtn"
+                class="btn secondary hidden">
+          إلغاء التعديل
+        </button>
+
+        <button id="clearInvoiceBtn" class="btn secondary">
+          🗑 تفريغ النموذج
+        </button>
+
+      </div>
 
     </div>
 
-    <div class="section-head">
-      <h3>الأصناف المصروفة</h3>
-      <span class="muted">أدخل الكمية يدويًا في الخانة الفارغة</span>
-    </div>
 
-    <div id="itemPicker" class="item-picker"></div>
+    <!-- القسم الأيمن: الأصناف -->
+    <div class="items-side panel">
 
-    <div class="table-wrap">
+      <div class="items-heading">
+        <div>
+          <h2>قائمة الأصناف</h2>
+          <p>اختر الأصناف لإضافتها إلى الفاتورة</p>
+        </div>
 
-      <table>
-        <thead>
-          <tr>
-            <th>الصنف</th>
-            <th>الكمية</th>
-            <th>سعر الوحدة</th>
-            <th>الإجمالي</th>
-            <th>الإجراء</th>
-          </tr>
-        </thead>
+        <span class="items-icon">☷</span>
+      </div>
 
-        <tbody id="invoiceLines"></tbody>
-      </table>
-
-    </div>
-
-    <div class="invoice-total">
-      إجمالي الفاتورة:
-      <strong id="invoiceTotal">0.00 ر.س</strong>
-    </div>
-
-    <div class="actions">
-
-      <button id="saveInvoiceBtn" class="btn primary">
-        حفظ الفاتورة
-      </button>
-
-      <button id="cancelEditBtn" class="btn secondary hidden">
-        إلغاء التعديل
-      </button>
-
-      <button id="clearInvoiceBtn" class="btn secondary">
-        تفريغ النموذج
-      </button>
+      <div id="itemPicker" class="item-picker"></div>
 
     </div>
 
   </div>
 
 </section>
-
 
 <!-- إدارة السائقين -->
 <section id="page-drivers" class="page">
