@@ -1467,3 +1467,152 @@ td {
     min-height: 35px;
   }
 }
+
+/* =====================================
+   اختيار السائق - تصميم احترافي
+===================================== */
+
+.invoice-fields select#invoiceDriver {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  min-height: 53px;
+  padding: 12px 16px 12px 42px;
+  border: 1.5px solid #c6d9f2;
+  border-radius: 11px;
+  background-color: #f1f6ff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%231456ae' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left 14px center;
+  color: #174f9f;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.invoice-fields select#invoiceDriver:focus {
+  background-color: #fff;
+  border-color: #2876dc;
+  box-shadow: 0 0 0 4px #2876dc18;
+  outline: none;
+}
+
+/* =====================================
+   فواتير اليوم
+===================================== */
+
+#todayInvoices {
+  background: #fff;
+  border: 1px solid #dce6f3;
+  border-radius: 13px;
+  overflow-x: auto;
+  margin-top: 15px;
+}
+
+#todayInvoices table {
+  width: 100%;
+  min-width: 650px;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 13px;
+}
+
+/* رأس الجدول */
+#todayInvoices th {
+  background: linear-gradient(120deg, #174f9f, #2876dc);
+  color: #fff;
+  padding: 15px 10px;
+  text-align: center;
+  font-weight: 900;
+  border: none;
+}
+
+/* زوايا الرأس */
+#todayInvoices th:first-child {
+  border-radius: 0 10px 0 0;
+}
+
+#todayInvoices th:last-child {
+  border-radius: 10px 0 0 0;
+}
+
+/* صفوف الفواتير */
+#todayInvoices td {
+  padding: 15px 10px;
+  text-align: center;
+  color: #34445b;
+  border-bottom: 1px solid #edf1f7;
+  font-weight: 700;
+  transition: .2s;
+}
+
+#todayInvoices tbody tr:nth-child(even) {
+  background: #f5f8fd;
+}
+
+#todayInvoices tbody tr:hover {
+  background: #eaf3ff;
+}
+
+/* رقم الفاتورة */
+#todayInvoices td:first-child {
+  color: #1456ae;
+  font-weight: 900;
+  direction: ltr;
+}
+
+/* الإجمالي */
+#todayInvoices td:nth-child(5) {
+  color: #12845a;
+  font-weight: 900;
+}
+
+/* حالة الفاتورة */
+#todayInvoices td:nth-child(6) {
+  color: #12845a;
+  font-weight: 900;
+}
+
+/* زر الطباعة */
+#todayInvoices .btn.secondary {
+  background: #eaf2ff;
+  color: #1456ae;
+  border: 1px solid #cbdcf3;
+  border-radius: 8px;
+  padding: 8px 15px;
+  font-weight: 900;
+}
+
+#todayInvoices .btn.secondary:hover {
+  background: #1456ae;
+  color: #fff;
+}
+
+/* إنهاء يوم العمل */
+#resetDayBtn {
+  border-radius: 10px;
+  padding: 11px 18px;
+  box-shadow: 0 3px 9px #df565620;
+}
+
+/* عنوان فواتير اليوم */
+#page-dashboard .section-head h2 {
+  color: #174f9f;
+  font-size: 21px;
+  font-weight: 900;
+}
+
+/* الجوال */
+@media(max-width:600px) {
+  .invoice-fields select#invoiceDriver {
+    min-height: 48px;
+    font-size: 14px;
+  }
+
+  #todayInvoices td,
+  #todayInvoices th {
+    padding: 11px 7px;
+  }
+}
