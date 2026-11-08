@@ -1312,3 +1312,158 @@ td {
     padding: 8px 5px;
   }
 }
+
+/* =================================
+   تطوير تفاصيل فاتورة الصرف
+================================= */
+
+/* عنوان تفاصيل الفاتورة */
+.invoice-lines-heading {
+  padding: 12px 14px;
+  background: #edf4ff;
+  border-radius: 10px;
+  border-right: 4px solid #d5a94f;
+  margin: 15px 0 12px;
+}
+
+.invoice-lines-heading h3 {
+  color: #174f9f;
+  font-size: 19px;
+  font-weight: 900;
+  margin: 0;
+}
+
+/* إطار الجدول */
+.invoice-table-wrap {
+  border: 1px solid #dce6f3;
+  border-radius: 12px;
+  overflow-x: auto;
+  background: #fff;
+  max-height: 340px;
+}
+
+/* الجدول */
+.invoice-table-wrap table {
+  width: 100%;
+  min-width: 0;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 13px;
+}
+
+/* توزيع الأعمدة */
+.invoice-table-wrap th:nth-child(1) { width: 32%; }
+.invoice-table-wrap th:nth-child(2) { width: 17%; }
+.invoice-table-wrap th:nth-child(3) { width: 17%; }
+.invoice-table-wrap th:nth-child(4) { width: 22%; }
+.invoice-table-wrap th:nth-child(5) { width: 12%; }
+
+/* رأس الجدول */
+.invoice-table-wrap th {
+  background: #eaf2ff;
+  color: #174f9f;
+  padding: 13px 5px;
+  font-weight: 900;
+  text-align: center;
+  border-bottom: 2px solid #cbdcf3;
+}
+
+/* خلايا الجدول */
+.invoice-table-wrap td {
+  padding: 12px 5px;
+  text-align: center;
+  color: #34445b;
+  font-weight: 700;
+  border-bottom: 1px solid #edf0f5;
+  overflow-wrap: anywhere;
+}
+
+/* تناوب ألوان الصفوف */
+.invoice-table-wrap tbody tr:nth-child(even) {
+  background: #f6f9ff;
+}
+
+.invoice-table-wrap tbody tr:hover {
+  background: #eaf3ff;
+}
+
+/* اسم الصنف */
+.invoice-table-wrap td:first-child {
+  color: #174f9f;
+  font-weight: 800;
+  text-align: right;
+}
+
+/* خانة إدخال الكمية */
+.invoice-table-wrap td .qty-input {
+  width: 100%;
+  max-width: 75px;
+  min-height: 38px;
+  padding: 5px;
+  text-align: center;
+  background: #eaf3ff;
+  border: 1px solid #a9c9f3;
+  border-radius: 8px;
+  color: #1456ae;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+/* عند اختيار خانة الكمية */
+.invoice-table-wrap td .qty-input:focus {
+  background: #fff;
+  border: 2px solid #2876dc;
+  outline: none;
+  box-shadow: 0 0 0 3px #2876dc20;
+}
+
+/* إجمالي السطر */
+.invoice-table-wrap td:nth-child(4) {
+  color: #159568;
+  font-weight: 900;
+}
+
+/* زر حذف الصنف */
+.invoice-table-wrap .btn.danger {
+  padding: 6px 8px;
+  border-radius: 7px;
+}
+
+/* إجمالي الفاتورة */
+.invoice-total {
+  margin-top: 15px;
+  padding: 17px;
+  background: linear-gradient(110deg, #edf5ff, #f5f8ff);
+  border: 1px solid #d5e5f8;
+  border-right: 5px solid #d5a94f;
+  border-radius: 12px;
+}
+
+.invoice-total span {
+  color: #174f9f;
+  font-weight: 900;
+}
+
+.invoice-total strong {
+  color: #12845a;
+  font-size: 27px;
+  font-weight: 900;
+}
+
+/* الشاشات الصغيرة */
+@media (max-width: 600px) {
+  .invoice-table-wrap table {
+    font-size: 11px;
+  }
+
+  .invoice-table-wrap th,
+  .invoice-table-wrap td {
+    padding: 9px 3px;
+  }
+
+  .invoice-table-wrap td .qty-input {
+    font-size: 14px;
+    min-height: 35px;
+  }
+}
