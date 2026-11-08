@@ -1126,3 +1126,189 @@ select:focus {
   }
 
 }
+
+/* =====================================
+   الهوية الجديدة - سحايب ديرتي
+===================================== */
+
+:root {
+  --bg: #f2f5fa;
+  --panel: #ffffff;
+  --panel2: #f7f9fd;
+  --gold: #d5a94f;
+  --gold2: #e8c879;
+  --text: #26364d;
+  --muted: #8290a4;
+  --line: #e1e8f1;
+  --red: #df5656;
+  --green: #159b69;
+  --blue-dark: #124b9b;
+  --blue-light: #347fe0;
+}
+
+/* خلفية النظام */
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* الشريط العلوي */
+.topbar {
+  background: linear-gradient(120deg, #103d83, #236bd0);
+  box-shadow: 0 4px 18px #174b9120;
+}
+
+.topbar h1 {
+  color: #fff;
+}
+
+/* التنقل */
+.tabs {
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+}
+
+.tab {
+  background: #f0f4fa;
+  color: #425675;
+}
+
+.tab.active {
+  background: linear-gradient(120deg, #1554a9, #3984e8);
+  color: white;
+}
+
+/* البطاقات العامة */
+.panel,
+.stat {
+  background: #fff;
+  border: 1px solid #e1e8f1;
+  border-radius: 14px;
+  box-shadow: 0 4px 15px #203b6010;
+}
+
+/* الإحصائيات */
+.stat strong {
+  color: #1764c1;
+}
+
+/* =====================================
+   بطاقات الأصناف - حجم متوسط
+===================================== */
+
+.item-picker {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.item-card {
+  min-width: 0;
+  min-height: 78px;
+  padding: 9px 7px;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #1857ad, #347edc);
+  color: white;
+  border: 1px solid #286bc4;
+  box-shadow: 0 3px 8px #174b9120;
+  text-align: center;
+  font-size: 13px;
+  transition: .2s ease;
+}
+
+.item-card b {
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.item-card small {
+  display: block;
+  color: #f7e5b8;
+  font-size: 12px;
+  margin-top: 3px;
+}
+
+.item-card .item-icon {
+  width: 23px;
+  height: 23px;
+  border-radius: 7px;
+  background: #ffffff22;
+  color: #f5d78e;
+  font-size: 15px;
+}
+
+.item-card:hover {
+  background: linear-gradient(145deg, #10478f, #286bc4);
+  transform: translateY(-2px);
+}
+
+/* حقول إدخال الكمية */
+.qty-input {
+  min-height: 39px;
+  text-align: center;
+  border: 1px solid #cbd9eb;
+  border-radius: 8px;
+  background: #f4f8ff;
+  color: #174f9f;
+  font-weight: 800;
+}
+
+/* الإجمالي */
+.invoice-total {
+  background: #edf5ff;
+  border: 1px solid #d7e7fa;
+  border-right: 4px solid #d5a94f;
+  border-radius: 10px;
+}
+
+.invoice-total strong {
+  color: #1456ae;
+}
+
+/* الأزرار */
+.btn.primary {
+  background: linear-gradient(120deg, #1456ae, #3983e5);
+  color: white;
+}
+
+#saveInvoiceBtn {
+  background: linear-gradient(120deg, #12845a, #20aa76);
+  color: white;
+}
+
+/* عناوين الأقسام */
+.invoice-side-title h2,
+.items-heading h2,
+.panel h2 {
+  color: #174d96;
+}
+
+/* الجداول */
+th {
+  background: #edf4ff;
+  color: #174d96;
+}
+
+td {
+  border-bottom: 1px solid #e8edf5;
+}
+
+/* الشاشات المتوسطة */
+@media (max-width: 1000px) {
+  .item-picker {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* الجوال */
+@media (max-width: 600px) {
+  .item-picker {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .item-card {
+    min-height: 75px;
+    padding: 8px 5px;
+  }
+}
