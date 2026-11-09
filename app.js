@@ -8,7 +8,6 @@ const KEY = "deerty_driver_accounts_v2";
 
 const DEFAULT_ITEMS = [
   { id: "base_001", name: "ربع دجاج رز شعبي", price: 8.50 },
-  { id: "base_001", name: "ربع دجاج رز شعبي", price: 8.50 },
 { id: "base_002", name: "ربع دجاج رز بشاور", price: 9 },
 { id: "base_022", name: "ربع مظغوط", price: 9 },
 { id: "base_012", name: "نص دجاج رز شعبي", price: 17 },
