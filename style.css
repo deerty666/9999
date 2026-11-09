@@ -1616,3 +1616,73 @@ td {
     padding: 11px 7px;
   }
 }
+
+/* =====================================
+   تحسين تجاوب شاشة فاتورة الصرف
+===================================== */
+
+/* الشاشات الكبيرة */
+.invoice-workspace {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 0.95fr)
+    minmax(0, 1.25fr);
+  gap: 16px;
+  align-items: start;
+  width: 100%;
+}
+
+.invoice-side,
+.items-side {
+  min-width: 0;
+  width: 100%;
+}
+
+/* قائمة الأصناف تتكيف تلقائياً */
+.item-picker {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(135px, 1fr));
+  gap: 12px;
+  width: 100%;
+}
+
+/* عند تصغير نافذة البرنامج */
+@media (max-width: 900px) {
+  .invoice-workspace {
+    grid-template-columns: minmax(0, 1fr);
+    direction: rtl;
+  }
+
+  .items-side {
+    order: 1;
+  }
+
+  .invoice-side {
+    order: 2;
+  }
+
+  .item-picker {
+    grid-template-columns:
+      repeat(auto-fit, minmax(125px, 1fr));
+  }
+}
+
+/* الجوال والشاشات الصغيرة */
+@media (max-width: 500px) {
+  .item-picker {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .item-card {
+    min-height: 85px;
+    padding: 9px 5px;
+    font-size: 13px;
+  }
+
+  .invoice-side,
+  .items-side {
+    padding: 12px;
+  }
+}
