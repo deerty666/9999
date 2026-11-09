@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME = "deerty-drivers-v3";
+const CACHE_NAME = "deerty-drivers-v4";
 
 const APP_FILES = [
 "./",
