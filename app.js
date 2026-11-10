@@ -1302,34 +1302,47 @@ $("printReportBtn").onclick = () => {
 
 /* =========================
    طباعة فاتورة منفردة
+   نسختان عند الحفظ
+   نسخة واحدة عند الطباعة اليدوية
 ========================= */
 
-window.printSingle = id => {
-  const inv = db.invoices.find(x => x.id === id);
+window.printSingle = (id, copies = 1) => {
 
+  const inv = db.invoices.find(x => x.id === id);
   if (!inv) return;
+
+  copies = Math.max(1, Math.min(10, Number(copies) || 1));
 
   const rows = (inv.items || []).map(x => `
     <tr>
       <td>${esc(x.name)}</td>
       <td>${Number(x.qty || 0)}</td>
       <td>${Number(x.price || 0).toFixed(2)}</td>
-      <td>${(
-        Number(x.qty || 0) * Number(x.price || 0)
-      ).toFixed(2)}</td>
+      <td>${(Number(x.qty || 0) * Number(x.price || 0)).toFixed(2)}</td>
     </tr>
   `).join("");
 
-  $("printArea").innerHTML = `
-<div class="receipt">
+  const receipt = (label) => `
+    <div class="receipt">
 
-  <div class="receipt-logo">
-    <img src="./logo.png" alt="شعار مطاعم سحايب ديرتي">
-  </div>
+      <div class="receipt-logo">
+        <img src="./logo.png" alt="شعار ديرتي">
+      </div>
 
-  <h2>مطاعم ومطابخ سحايب ديرتي</h2>
+      <h2>مطاعم ومطابخ سحايب ديرتي</h2>
 
       <h3>فاتورة صرف أصناف</h3>
+
+      ${label ? `
+        <div class="center" style="
+          font-weight:bold;
+          border:1px dashed #000;
+          padding:5px;
+          margin:8px 0;
+        ">
+          ${label}
+        </div>
+      ` : ""}
 
       <div class="center">
         رقم الفاتورة:
@@ -1337,12 +1350,9 @@ window.printSingle = id => {
       </div>
 
       <div>السائق: ${esc(driverLabel(inv.driverId))}</div>
-
       <div>التاريخ: ${esc(inv.date)}</div>
 
-      ${inv.notes
-        ? `<div>ملاحظات: ${esc(inv.notes)}</div>`
-        : ""}
+      ${inv.notes ? `<div>ملاحظات: ${esc(inv.notes)}</div>` : ""}
 
       <div class="rule"></div>
 
@@ -1355,7 +1365,6 @@ window.printSingle = id => {
             <th>الإجمالي</th>
           </tr>
         </thead>
-
         <tbody>${rows}</tbody>
       </table>
 
@@ -1367,54 +1376,85 @@ window.printSingle = id => {
         الإجمالي: ${invoiceTotal(inv).toFixed(2)} ريال
       </div>
 
-      
-<div style="border:1px solid #000;padding:8px;margin-top:12px;text-align:right;font-size:12px;line-height:2;page-break-inside:avoid;">
+      <div style="
+        border:1px solid #000;
+        padding:8px;
+        margin-top:12px;
+        text-align:right;
+        font-size:12px;
+        line-height:2;
+        page-break-inside:avoid;
+      ">
 
-  <div style="text-align:center;font-weight:bold;border-bottom:1px dashed #000;padding-bottom:5px;margin-bottom:5px;">
-    ملاحظات مدير الصالة
-  </div>
+        <div style="
+          text-align:center;
+          font-weight:bold;
+          border-bottom:1px dashed #000;
+          padding-bottom:5px;
+          margin-bottom:5px;
+        ">
+          ملاحظات مدير الصالة
+        </div>
 
-  <div>الملاحظة: ............................</div>
+        <div>الملاحظة: ............................</div>
 
-  <div style="font-weight:bold;margin-top:5px;">
-    في حال الكنسلة:
-  </div>
+        <div style="font-weight:bold;margin-top:5px;">
+          في حال الكنسلة:
+        </div>
 
-  <div>اسم المكنسل: ........................</div>
+        <div>اسم المكنسل: ........................</div>
 
-  
+        <div style="margin-top:8px;">
+          توقيع مدير الصالة:
+        </div>
 
-  <div style="margin-top:8px;">
-    توقيع مدير الصالة:
-  </div>
+        <div style="height:35px;border-bottom:1px solid #000;"></div>
 
-  <div style="height:35px;border-bottom:1px solid #000;"></div>
+      </div>
 
-</div>
     </div>
   `;
 
- const printImages = $("printArea").querySelectorAll("img");
+  const labels = copies === 2
+    ? ["نسخة السائق", "نسخة المطعم"]
+    : Array(copies).fill("");
 
-Promise.all(
-  Array.from(printImages).map(img => {
-    if (img.complete && img.naturalWidth > 0) {
-      return Promise.resolve();
+  $("printArea").innerHTML = labels.map((label, index) => `
+    <div style="${
+      index > 0
+        ? "break-before:page;page-break-before:always;"
+        : ""
+    }">
+      ${receipt(label)}
+    </div>
+  `).join("");
+
+  const printImages = $("printArea").querySelectorAll("img");
+
+  Promise.all(
+    Array.from(printImages).map(img => {
+
+      if (img.complete && img.naturalWidth > 0) {
+        return Promise.resolve();
+      }
+
+      return new Promise(resolve => {
+        img.onload = resolve;
+        img.onerror = resolve;
+        setTimeout(resolve, 3000);
+      });
+
+    })
+  ).then(async () => {
+
+    if (document.fonts?.ready) {
+      await document.fonts.ready;
     }
 
-    return new Promise(resolve => {
-      img.onload = resolve;
-      img.onerror = resolve;
-      setTimeout(resolve, 3000);
-    });
-  })
-).then(async () => {
-  if (document.fonts?.ready) {
-    await document.fonts.ready;
-  }
+    window.print();
 
-  window.print();
-}); 
+  });
+
 };
 
 
