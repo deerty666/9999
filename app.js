@@ -653,7 +653,7 @@ $("saveInvoiceBtn").onclick = () => {
 
   saveDB();
 
-  window.printSingle(inv.id);
+  window.printSingle(inv.id, 2);
 
   clearInvoiceForm();
 
